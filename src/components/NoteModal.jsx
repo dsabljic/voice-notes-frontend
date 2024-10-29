@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Save, Trash } from "lucide-react";
 import { updateNote, deleteNote } from "../api/notes";
 import toast from "react-hot-toast";
@@ -38,12 +38,12 @@ export default function NoteModal({ note, onClose, onUpdate }) {
   return (
     <>
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-40"
         onClick={onClose}
       >
         <dialog
           open
-          className="bg-white rounded-lg w-full max-w-3xl max-h-[90vh] overflow-hidden"
+          className="bg-white rounded-lg w-full max-w-3xl max-h-[90vh] overflow-hidden relative z-50"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="p-4 border-b flex items-center justify-between">

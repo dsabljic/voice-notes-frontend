@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { X } from "lucide-react";
 
 export default function DeleteNoteModal({ onClose, onConfirm }) {
@@ -19,7 +19,7 @@ export default function DeleteNoteModal({ onClose, onConfirm }) {
     >
       <dialog
         open
-        className="bg-white rounded-lg w-full max-w-md"
+        className="bg-white rounded-lg w-full max-w-md relative z-50"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-4 border-b flex items-center justify-between">

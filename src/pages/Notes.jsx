@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import NoteCard from "../components/NoteCard";
-import NoteModal from "../components/NoteModal";
 import { getNotes } from "../api/notes";
 import toast from "react-hot-toast";
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
-  const [selectedNote, setSelectedNote] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState("all");
+  const [sortBy, setSortBy] = useState("created-desc");
 
   useEffect(() => {
     fetchNotes();
@@ -24,13 +23,32 @@ export default function Notes() {
     }
   };
 
-  const filteredNotes = notes.filter((note) => {
-    const matchesSearch = note.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesType = selectedType === "all" || note.type === selectedType;
-    return matchesSearch && matchesType;
-  });
+  const sortNotes = (notesToSort) => {
+    return [...notesToSort].sort((a, b) => {
+      switch (sortBy) {
+        case "created-desc":
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        case "created-asc":
+          return new Date(a.createdAt) - new Date(b.createdAt);
+        case "updated-desc":
+          return new Date(b.updatedAt) - new Date(a.updatedAt);
+        case "updated-asc":
+          return new Date(a.updatedAt) - new Date(b.updatedAt);
+        default:
+          return 0;
+      }
+    });
+  };
+
+  const filteredNotes = sortNotes(
+    notes.filter((note) => {
+      const matchesSearch = note.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesType = selectedType === "all" || note.type === selectedType;
+      return matchesSearch && matchesType;
+    })
+  );
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -59,16 +77,23 @@ export default function Notes() {
             <option value="summary">Summary</option>
             <option value="list-of-ideas">List of Ideas</option>
           </select>
+
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white"
+          >
+            <option value="created-desc">Newest First</option>
+            <option value="created-asc">Oldest First</option>
+            <option value="updated-desc">Recently Updated</option>
+            <option value="updated-asc">Least Recently Updated</option>
+          </select>
         </div>
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredNotes.map((note) => (
-          <NoteCard
-            key={note.id}
-            note={note}
-            onClick={() => setSelectedNote(note)}
-          />
+          <NoteCard key={note.id} note={note} onUpdate={fetchNotes} />
         ))}
       </div>
 
@@ -78,14 +103,6 @@ export default function Notes() {
             No notes found matching your criteria.
           </p>
         </div>
-      )}
-
-      {selectedNote && (
-        <NoteModal
-          note={selectedNote}
-          onClose={() => setSelectedNote(null)}
-          onUpdate={fetchNotes}
-        />
       )}
     </div>
   );
