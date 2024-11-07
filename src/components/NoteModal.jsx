@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { X, Save, Trash } from "lucide-react";
-import { updateNote } from "../api/notes";
+import { updateNote, deleteNote } from "../api/notes";
 import toast from "react-hot-toast";
 import DeleteNoteModal from "./DeleteNoteModal";
 
