@@ -1,23 +1,28 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Notes from "./pages/Notes";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/dashboard",
     element: <Layout />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <Dashboard />,
       },
       {
-        path: "/notes",
+        path: "notes",
         element: <Notes />,
       },
     ],
   },
+  { path: "*", element: <Navigate to="/dashboard" replace /> },
 ]);
 
 function App() {
