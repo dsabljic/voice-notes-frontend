@@ -61,18 +61,19 @@ export default function Navbar() {
         <div className="sm:hidden">
           <div className="pt-2 pb-3 space-y-1">
             <NavLink
-              to="/"
+              to="/dashboard"
               className={({ isActive }) =>
                 isActive
                   ? "bg-blue-50 border-blue-500 text-blue-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
                   : "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
               }
               onClick={() => setIsMenuOpen(false)}
+              end
             >
               Dashboard
             </NavLink>
             <NavLink
-              to="/notes"
+              to="/dashboard/notes"
               className={({ isActive }) =>
                 isActive
                   ? "bg-blue-50 border-blue-500 text-blue-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium"
