@@ -1,14 +1,22 @@
 import React, { useState, useRef } from "react";
-import { Mic, Square } from "lucide-react";
+import { Mic, StopCircle } from "lucide-react";
 import toast from "react-hot-toast";
 
 const MAX_RECORDING_TIME = 10 * 60 * 1000; // 10 minutes in milliseconds
 
 export default function AudioRecorder({ onRecordingComplete }) {
   const [isRecording, setIsRecording] = useState(false);
+  const [timer, setTimer] = useState(0);
   const mediaRecorder = useRef(null);
   const chunks = useRef([]);
   const recordingTimeout = useRef();
+  const timerInterval = useRef();
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
 
   const startRecording = async () => {
     try {
@@ -42,6 +50,12 @@ export default function AudioRecorder({ onRecordingComplete }) {
 
       mediaRecorder.current.start();
       setIsRecording(true);
+      setTimer(0);
+
+      // Start timer
+      timerInterval.current = setInterval(() => {
+        setTimer((prev) => prev + 1);
+      }, 1000);
 
       // Set timeout to stop recording after 10 minutes
       recordingTimeout.current = setTimeout(() => {
@@ -63,33 +77,45 @@ export default function AudioRecorder({ onRecordingComplete }) {
       if (recordingTimeout.current) {
         clearTimeout(recordingTimeout.current);
       }
+      if (timerInterval.current) {
+        clearInterval(timerInterval.current);
+      }
+      setTimer(0);
     }
   };
 
   return (
-    <div className="flex items-center gap-4">
-      {isRecording ? (
-        <button
-          onClick={stopRecording}
-          className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
-        >
-          <Square className="w-5 h-5" />
-          Stop Recording
-        </button>
-      ) : (
-        <button
-          onClick={startRecording}
-          className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-        >
-          <Mic className="w-5 h-5" />
-          Start Recording
-        </button>
-      )}
-      {isRecording && (
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse" />
-          Recording...
-        </div>
+    <div className="flex flex-col items-center gap-4">
+      <button
+        onClick={isRecording ? stopRecording : startRecording}
+        className={`flex items-center justify-center w-16 h-16 rounded-full transition-all transform hover:scale-105 ${
+          isRecording
+            ? "bg-red-500 hover:bg-red-600 animate-pulse"
+            : "bg-blue-500 hover:bg-blue-600"
+        }`}
+      >
+        {isRecording ? (
+          <StopCircle className="w-8 h-8 text-white" />
+        ) : (
+          <Mic className="w-8 h-8 text-white" />
+        )}
+      </button>
+
+      <div className="flex items-center gap-3">
+        {isRecording && (
+          <>
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+            <span className="text-lg font-medium text-gray-700">
+              {formatTime(timer)}
+            </span>
+          </>
+        )}
+      </div>
+
+      {!isRecording && (
+        <p className="text-sm text-gray-500">
+          Click to start recording (max 10 minutes)
+        </p>
       )}
     </div>
   );
