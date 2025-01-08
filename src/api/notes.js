@@ -23,6 +23,7 @@ export const createNote = async (data) => {
   const formData = new FormData();
   formData.append("title", data.title);
   formData.append("type", data.type);
+  formData.append('isRecording', data.isRecording || 'false');
 
   if (data.audioData) {
     // Convert base64 to blob

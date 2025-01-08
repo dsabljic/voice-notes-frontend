@@ -15,6 +15,7 @@ export default function Dashboard() {
   const [noteToDelete, setNoteToDelete] = useState(null);
   const [noteToEdit, setNoteToEdit] = useState(null);
   const [audioData, setAudioData] = useState();
+  const [isRecording, setIsRecording] = useState();
 
   useEffect(() => {
     fetchNotes();
@@ -49,6 +50,7 @@ export default function Dashboard() {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64Audio = reader.result;
+        setIsRecording("false");
         setAudioData(base64Audio.split(",")[1]);
         setShowCreateModal(true);
       };
@@ -61,6 +63,7 @@ export default function Dashboard() {
   };
 
   const handleRecordingComplete = (audioData) => {
+    setIsRecording("true");
     setAudioData(audioData);
     setShowCreateModal(true);
   };
@@ -138,6 +141,7 @@ export default function Dashboard() {
       {showCreateModal && (
         <CreateNoteModal
           audioData={audioData}
+          isRecording={isRecording}
           onClose={() => {
             setShowCreateModal(false);
             setAudioData(undefined);

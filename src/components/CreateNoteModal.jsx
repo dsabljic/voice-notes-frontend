@@ -3,7 +3,12 @@ import { X } from "lucide-react";
 import { createNote } from "../api/notes";
 import toast from "react-hot-toast";
 
-export default function CreateNoteModal({ audioData, onClose, onSuccess }) {
+export default function CreateNoteModal({
+  audioData,
+  isRecording,
+  onClose,
+  onSuccess,
+}) {
   const [title, setTitle] = useState("");
   const [type, setType] = useState("transcription");
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +22,7 @@ export default function CreateNoteModal({ audioData, onClose, onSuccess }) {
         title,
         type,
         audioData,
+        isRecording,
       });
       toast.success("Note created successfully");
       onSuccess();
