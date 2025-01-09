@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FileAudio, NotebookPen, Menu, X } from "lucide-react";
+import UserMenu from "./UserMenu";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,8 +41,8 @@ export default function Navbar() {
               </NavLink>
             </div>
           </div>
-          <div className="flex items-center">
-            <NotebookPen className="hidden sm:block w-6 h-6 text-gray-400" />
+          <div className="flex items-center gap-4">
+            <UserMenu />
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="sm:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
