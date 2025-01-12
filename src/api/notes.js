@@ -33,7 +33,6 @@ export const createNote = async (data) => {
   formData.append("isRecording", data.isRecording || "false");
 
   if (data.audioData) {
-    // Convert base64 to blob
     const byteCharacters = atob(data.audioData);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
