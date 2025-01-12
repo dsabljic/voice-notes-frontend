@@ -123,6 +123,11 @@ export default function Dashboard() {
 
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Recent Notes</h2>
+          {!notes.length && (
+            <div className="text-center py-12">
+              <p className="text-gray-500">You currently have no notes!</p>
+            </div>
+          )}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {notes.map((note) => (
             <NoteCard
