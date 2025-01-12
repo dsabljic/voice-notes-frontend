@@ -123,20 +123,18 @@ export default function Dashboard() {
 
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Recent Notes</h2>
-          {!notes.length && (
-            <div className="text-center py-12">
-              <p className="text-gray-500">You currently have no notes!</p>
-            </div>
-          )}
+        {!notes.length && (
+          <div className="text-center py-12">
+            <p className="text-gray-500">You currently have no notes!</p>
+          </div>
+        )}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {notes.map((note) => (
             <NoteCard
               key={note.id}
               note={note}
               onClick={() => handleNoteClick(note.id)}
-              // onEdit={() => handleNoteClick(note.id)}
               onEdit={() => setNoteToEdit(note)}
-              // onDelete={() => handleNoteClick(note.id)}
               onDelete={() => handleDeleteNote(note)}
             />
           ))}
@@ -172,7 +170,6 @@ export default function Dashboard() {
         />
       )}
 
-      {/* new */}
       {noteToDelete && (
         <DeleteNoteModal
           onClose={() => setNoteToDelete(null)}
@@ -188,7 +185,6 @@ export default function Dashboard() {
           }}
         />
       )}
-      {/* new */}
     </div>
   );
 }
