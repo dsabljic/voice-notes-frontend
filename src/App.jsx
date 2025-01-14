@@ -10,6 +10,8 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Notes from "./pages/Notes";
 import Auth from "./pages/Auth";
+import Billing from "./pages/Billing";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,7 +20,9 @@ const router = createBrowserRouter(
       <Route path="/dashboard" element={<Layout />}>
         <Route index element={<Dashboard />} />
         <Route path="notes" element={<Notes />} />
+        <Route path="billing" element={<Billing />} />
       </Route>
+      <Route path="/payment-success" element={<PaymentSuccess />} />
       <Route path="*" element={<Navigate to="/auth" replace />} />
     </Route>
   )
