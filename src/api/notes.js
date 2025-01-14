@@ -30,16 +30,17 @@ export const createNote = async (data) => {
   const formData = new FormData();
   formData.append("title", data.title);
   formData.append("type", data.type);
-  formData.append("isRecording", data.isRecording || "false");
+  formData.append("isRecording", String(data.isRecording));
 
   if (data.audioData) {
+    // Convert base64 to blob
     const byteCharacters = atob(data.audioData);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
     const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: "audio/mp3" });
+    const blob = new Blob([byteArray], { type: "audio/mpeg" }); // Changed to audio/mpeg
 
     formData.append("audio", blob, "recording.mp3");
   }

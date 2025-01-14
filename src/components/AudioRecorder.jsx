@@ -21,7 +21,10 @@ export default function AudioRecorder({ onRecordingComplete }) {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder.current = new MediaRecorder(stream);
+      mediaRecorder.current = new MediaRecorder(stream, {
+        mimeType: "audio/webm",
+        audioBitsPerSecond: 128000,
+      });
       chunks.current = [];
 
       mediaRecorder.current.ondataavailable = (e) => {
