@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { User, LogOut, Settings, CreditCard } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useAuth();
   const menuRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -67,16 +69,8 @@ export default function UserMenu() {
           <div className="py-1">
             <button
               onClick={() => {
-                /* TODO: Implement settings */
-              }}
-              className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left flex items-center"
-            >
-              <Settings className="w-4 h-4 mr-3" />
-              Settings
-            </button>
-            <button
-              onClick={() => {
-                /* TODO: Implement billing */
+                setIsOpen(false);
+                navigate("/dashboard/billing");
               }}
               className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left flex items-center"
             >
